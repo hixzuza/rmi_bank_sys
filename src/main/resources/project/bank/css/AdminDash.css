@@ -1,0 +1,113 @@
+/* Root styles for Admin Dashboard */
+.root {
+    -fx-background-color: #181818;
+}
+
+/* BorderPane background */
+.border-pane {
+    -fx-background-color: #181818;
+}
+
+/* Sidebar Menu Button - Normal State */
+.sidebar-button {
+    -fx-background-radius: 14px;
+    -fx-background-color: #2A2A2A;
+    -fx-text-fill: #C9A84C;
+    -fx-padding: 12px 20px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+
+    /* Remove borders and focus rings */
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-border-radius: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0;
+}
+
+/* Sidebar Menu Button - Hover State */
+.sidebar-button:hover {
+    -fx-background-color: #C9A84C;
+    -fx-text-fill: #111111;
+}
+
+/* Sidebar Menu Button - Pressed/Active State */
+.sidebar-button:pressed {
+    -fx-background-color: #E8C96A;
+    -fx-text-fill: #111111;
+}
+
+/* Sidebar Menu Button - Selected/Active Page */
+.sidebar-button:selected {
+    -fx-background-color: #C9A84C;
+    -fx-text-fill: #111111;
+}
+
+/* Remove focus ring when focused */
+.sidebar-button:focused {
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Specific fix for ToggleButton */
+.toggle-button.sidebar-button {
+    -fx-background-radius: 14px;
+    -fx-background-color: #2A2A2A;
+    -fx-text-fill: #C9A84C;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.toggle-button.sidebar-button:selected {
+    -fx-background-color: #C9A84C;
+    -fx-text-fill: #111111;
+}
+
+.toggle-button.sidebar-button:hover {
+    -fx-background-color: #E8C96A;
+    -fx-text-fill: #111111;
+}
+
+/* Left VBox Sidebar */
+.sidebar-vbox {
+    -fx-background-color: #1C1C1C;
+    -fx-border-color: #7A6830;
+    -fx-border-width: 0 1px 0 0;
+}
+
+/* Top Header */
+.top-header {
+    -fx-background-color: #111111;
+}
+
+/* Header Labels */
+.header-title {
+    -fx-text-fill: #C9A84C;
+}
+
+/* Center StackPane */
+.center-pane {
+    -fx-background-color: #181818;
+}
+
+/* Bottom Status Bar */
+.bottom-status {
+    -fx-background-color: #111111;
+}
+
+/* Online status label */
+.online-status {
+    -fx-text-fill: #5DCF5D;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+/* Separator/Region */
+.region-separator {
+    -fx-background-color: #7A6830;
+}

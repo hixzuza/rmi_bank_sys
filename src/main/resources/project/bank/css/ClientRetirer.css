@@ -1,0 +1,133 @@
+/* Root styles for Withdraw window */
+.root {
+    -fx-background-color: #181818;
+}
+
+/* Main AnchorPane background */
+.anchor-pane {
+    -fx-background-color: #181818;
+}
+
+/* Inner form panel */
+.form-panel {
+    -fx-background-radius: 15px;
+    -fx-background-color: #1C1C1C;
+    -fx-border-color: #7A6830;
+    -fx-border-radius: 15px;
+    -fx-border-width: 1px;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #C9A84C;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* Text Fields */
+.text-field {
+    -fx-background-color: #2A2A2A;
+    -fx-text-fill: white;
+    -fx-border-color: #7A6830;
+    -fx-background-radius: 13px;
+    -fx-border-radius: 13px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 13px;
+    -fx-prompt-text-fill: #7A6830;
+}
+
+.text-field:focused {
+    -fx-border-color: #C9A84C;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Buttons */
+.button {
+    -fx-background-radius: 8px;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0;
+}
+
+/* Withdraw Button - Red/Danger theme */
+#deposerBtn {
+    -fx-background-color: #A32D2D;
+    -fx-text-fill: white;
+}
+
+#deposerBtn:hover {
+    -fx-background-color: #E24B4A;
+}
+
+#deposerBtn:pressed {
+    -fx-background-color: #791F1F;
+}
+
+/* Empty Button */
+#emptyBtn {
+    -fx-background-color: #2A2A2A;
+    -fx-text-fill: #C9A84C;
+    -fx-border-color: #7A6830;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+}
+
+#emptyBtn:hover {
+    -fx-background-color: #3A2E0A;
+    -fx-text-fill: #E8C96A;
+    -fx-border-color: #C9A84C;
+}
+
+#emptyBtn:pressed {
+    -fx-background-color: #2A2200;
+}
+
+/* Message Label */
+#messageLabel {
+    -fx-text-fill: #E8C96A;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* Success message style (green) */
+.success-message {
+    -fx-text-fill: #5DCF5D;
+}
+
+/* Error message style (red) */
+.error-message {
+    -fx-text-fill: #E24B4A;
+}
+
+/* Warning message style (orange) */
+.warning-message {
+    -fx-text-fill: #BA7517;
+}
+
+/* Top Header */
+.top-header {
+    -fx-background-color: #111111;
+    -fx-padding: 14 20 14 20;
+}
+
+/* Badge label - Red for withdrawal */
+.badge-label {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-color: #A32D2D;
+    -fx-background-radius: 6px;
+    -fx-padding: 3 10 3 10;
+}
+
+/* Client name label */
+.client-name {
+    -fx-text-fill: #E8C96A;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}

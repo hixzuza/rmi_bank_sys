@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="Paneroot" prefHeight="686.0" prefWidth="1300.0" stylesheets="@css/AdminDash.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.bank.client.viewmodel.AdminDashVM">
+    <bottom>
+        <HBox prefHeight="40.0" prefWidth="600.0" style="-fx-border-color: #c99931;" styleClass="bottom-status" BorderPane.alignment="CENTER">
+            <Label alignment="CENTER" prefHeight="40.0" prefWidth="186.0" styleClass="online-status" text="● ONLINE">
+                <padding>
+                    <Insets bottom="8.0" left="8.0" right="4.0" top="8.0" />
+                </padding>
+                <font>
+                    <Font name="System Bold" size="15.0" />
+                </font>
+            </Label>
+         <Region prefHeight="38.0" prefWidth="320.0" />
+         <Label id="date" prefHeight="52.0" prefWidth="429.0" styleClass="header-title">
+            <font>
+               <Font name="System Bold" size="24.0" />
+            </font>
+         </Label>
+        </HBox>
+    </bottom>
+    <center>
+        <StackPane fx:id="stackPane" styleClass="center-pane" BorderPane.alignment="CENTER">
+            <children>
+                <StackPane styleClass="center-pane" />
+            </children>
+        </StackPane>
+    </center>
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="1300.0" spacing="10" style="-fx-border-color: #c99931;" styleClass="top-header">
+            <Label prefHeight="51.0" prefWidth="221.0" styleClass="header-title" text="BANK SYSTEM">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+                <HBox.margin>
+                    <Insets left="18.0" />
+                </HBox.margin>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label prefHeight="52.0" prefWidth="429.0" styleClass="header-title" text="ADMIN DASH BOARD">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+    </top>
+    <left>
+        <VBox prefWidth="210.0" style="-fx-border-color: #c99931;" styleClass="sidebar-vbox">
+            <children>
+                <Button mnemonicParsing="false" onAction="#ListUSER" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" text="List all users">
+                    <VBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#createACC" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" text="Create account">
+                    <VBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#delectACC" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" text="Delete account">
+                    <VBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                    </VBox.margin>
+                </Button>
+                <Region VBox.vgrow="ALWAYS" />
+                <ToggleButton alignment="CENTER_LEFT" graphicTextGap="28.0" mnemonicParsing="false" onAction="#switchU" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" text="SWTICH">
+                    <VBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                    </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="27.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/icons8-cycle-30.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+                </ToggleButton>
+            </children>
+        </VBox>
+    </left>
+</BorderPane>

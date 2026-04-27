@@ -1,0 +1,112 @@
+/* Root styles for login window */
+.root {
+    -fx-background-color: #181818;
+}
+
+/* Top Header Bar */
+.header-bar {
+    -fx-background-color: #1C1C1C;
+}
+
+.header-title {
+    -fx-text-fill: #C9A84C;
+    -fx-font-weight: bold;
+}
+
+/* Center Panel Background */
+.center-panel {
+    -fx-background-color: #181818;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #C9A84C;
+}
+
+/* Text Fields and Password Fields - SMALLER SIZE */
+.text-field, .password-field {
+    -fx-background-color: #2A2A2A;
+    -fx-text-fill: white;
+    -fx-border-color: #7A6830;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 4px 6px;
+    -fx-font-size: 11px;
+    -fx-pref-height: 24px;
+    -fx-max-height: 24px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #C9A84C;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Buttons - Login and Empty */
+.button {
+    -fx-background-radius: 14px;
+    -fx-background-color: #C9A84C;
+    -fx-text-fill: #111111;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.button:hover {
+    -fx-background-color: #E8C96A;
+    -fx-text-fill: #111111;
+}
+
+.button:pressed {
+    -fx-background-color: #7A6830;
+}
+
+/* Specific button styles */
+#login_btn, #empty_btn {
+    -fx-background-radius: 14px;
+    -fx-background-color: #C9A84C;
+    -fx-text-fill: #111111;
+}
+
+#login_btn:hover, #empty_btn:hover {
+    -fx-background-color: #E8C96A;
+}
+
+/* CheckBox - ARE U ADMIN */
+.check-box {
+    -fx-text-fill: #C9A84C;
+    -fx-font-weight: bold;
+}
+
+.check-box .box {
+    -fx-background-color: #2A2A2A;
+    -fx-border-color: #C9A84C;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #C9A84C;
+}
+
+/* Result Label */
+#resLOGIN_label {
+    -fx-text-fill: #E8C96A;
+    -fx-font-size: 12px;
+}
+
+/* Error message */
+.error-label {
+    -fx-text-fill: #E24B4A;
+    -fx-font-weight: bold;
+}
+
+/* Success message */
+.success-label {
+    -fx-text-fill: #5DCF5D;
+    -fx-font-weight: bold;
+}

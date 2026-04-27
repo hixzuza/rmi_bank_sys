@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="Paneroot" prefHeight="686.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.bank.client.viewmodel.ClientDashVM">
+    <bottom>
+        <HBox prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #111111; -fx-border-color: #c99931;" BorderPane.alignment="CENTER">
+            <Label alignment="CENTER" prefHeight="40.0" prefWidth="186.0" text="ONLINE" textFill="WHITE">
+                <padding>
+                    <Insets bottom="8.0" left="8.0" right="16.0" top="8.0" />
+                </padding>
+                <font>
+                    <Font name="System Bold" size="17.0" />
+                </font>
+            <graphic>
+               <ImageView fitHeight="30.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@img/green_dot.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            </Label>
+         <Region prefHeight="44.0" prefWidth="247.0">
+            <HBox.margin>
+               <Insets right="29.0" />
+            </HBox.margin>
+         </Region>
+         <Label id="date" prefHeight="55.0" prefWidth="485.0" />
+        </HBox>
+    </bottom>
+    <center>
+        <StackPane fx:id="stackPane" style="-fx-background-color: #181818;" BorderPane.alignment="CENTER" />
+    </center>
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="1300.0" spacing="10" style="-fx-background-color: #111111; -fx-border-color: #c99931;">
+            <Label prefHeight="51.0" prefWidth="221.0" text="BANK SYSTEM" textFill="#c9a84c">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+                <HBox.margin>
+                    <Insets left="18.0" />
+                </HBox.margin>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label prefHeight="52.0" prefWidth="429.0" text="CLIENT DASH BOARD" textFill="#c9a84c">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+    </top>
+    <left>
+        <VBox prefWidth="210.0" style="-fx-background-color: #181818; -fx-border-color: #c99931;">
+            <children>
+                <Button mnemonicParsing="false" onAction="#ListAcc" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="View balance">
+                    <VBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#Deposer" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="Deposit money">
+                    <VBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#Retirer" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="Withdraw money">
+                    <VBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#Virement" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="Transfer money">
+                    <VBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#History" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="View transaction">
+                    <VBox.margin>
+                        <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+                    </VBox.margin>
+                </Button>
+                <Region VBox.vgrow="ALWAYS" />
+            <Button fx:id="adm_cli_btn" alignment="CENTER" graphicTextGap="47.0" layoutX="19.0" layoutY="339.0" mnemonicParsing="false" onAction="#switchU" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="SWITCH" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="27.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/icons8-cycle-30.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            </children>
+        </VBox>
+    </left>
+</BorderPane>

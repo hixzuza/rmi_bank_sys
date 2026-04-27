@@ -1,0 +1,104 @@
+/* Root styles for History window */
+.root {
+    -fx-background-color: #181818;
+}
+
+/* AnchorPane background */
+.anchor-pane {
+    -fx-background-color: #181818;
+}
+
+/* TableView styles */
+.table-view {
+    -fx-background-color: #1C1C1C;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #7A6830;
+    -fx-border-width: 1px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #2A2A2A;
+    -fx-background-radius: 20px 20px 0 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: #7A6830;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #C9A84C;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell {
+    -fx-background-color: #1C1C1C;
+    -fx-table-cell-border-color: #2A2A2A;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #181818;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #C9A84C;
+}
+
+.table-cell {
+    -fx-text-fill: white !important;
+    -fx-font-size: 12px;
+    -fx-padding: 8px;
+    -fx-border-color: #2A2A2A;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #111111 !important;
+}
+
+/* Scroll bar styling */
+.table-view .scroll-bar {
+    -fx-background-color: #1C1C1C;
+}
+
+.table-view .scroll-bar .thumb {
+    -fx-background-color: #C9A84C;
+    -fx-background-radius: 10px;
+}
+
+.table-view .scroll-bar .increment-button,
+.table-view .scroll-bar .decrement-button {
+    -fx-background-color: #2A2A2A;
+}
+
+/* Top Header */
+.top-header {
+    -fx-background-color: #111111;
+    -fx-padding: 14 20 14 20;
+}
+
+/* Badge label */
+.badge-label {
+    -fx-text-fill: #111111;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-color: #C9A84C;
+    -fx-background-radius: 6px;
+    -fx-padding: 3 10 3 10;
+}
+
+/* Client name label */
+.client-name {
+    -fx-text-fill: #E8C96A;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Table placeholder text (when empty) */
+.table-view .placeholder .label {
+    -fx-text-fill: #C9A84C;
+    -fx-font-size: 14px;
+}
