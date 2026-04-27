@@ -32,9 +32,9 @@ public class DatabaseConnection {
         if (connection == null || connection.isClosed()) {
             try {
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
-                System.out.println(" Reconnected to MySQL DB");
+                System.out.println(" reconnected to MySQL DB");
             } catch (SQLException e) {
-                System.err.println(" Failed to reconnect: " + e.getMessage());
+                System.err.println(" error to reconnect: " + e.getMessage());
                 throw e;
             }
         }

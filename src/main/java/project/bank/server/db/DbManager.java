@@ -12,34 +12,33 @@ import project.bank.server.db.DatabaseConnection;
 
 public class DbManager {
 
-	private Connection conn;
+    private Connection conn;
 
-	public DbManager() throws SQLException {
-		// CRITICAL FIX: Ensure DatabaseConnection is initialized first
-		DatabaseConnection.getInstance(); // Initialize the singleton
-		this.conn = DatabaseConnection.getConnection();
+    public DbManager() throws SQLException {
+        DatabaseConnection.getInstance();   // get one connection
+        this.conn = DatabaseConnection.getConnection();
 
-		if (this.conn == null || this.conn.isClosed()) {
-			throw new SQLException("Failed to establish database connection");
-		}
-		System.out.println("✅ DbManager initialized with valid connection");
-	}
+        if (this.conn == null || this.conn.isClosed()) {
+            throw new SQLException("error to make  connection with the db ");
+        }
+        System.out.println(" connection good with the db ");
+    }
 
-	private String hash(String input) {
-		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-256");
-			byte[] result = md.digest(input.getBytes("UTF-8"));
-			StringBuilder sb = new StringBuilder();
-			for (byte b : result)
-				sb.append(String.format("%02x", b));
-			return sb.toString();
-		} catch (Exception e) {
-			throw new RuntimeException("Hashing failed", e);
-		}
-	}
+    private String hash(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] result = md.digest(input.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            for (byte b : result)
+                sb.append(String.format("%02x", b));
+            return sb.toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Hashing failed", e);
+        }
+    }
 
-
-	public void test_the_db() {
+// this is for the testing the connection with the db
+	/*public void test_the_db() {
 		try {
 			System.out.println("Connect to DB");
 			System.out.println("=====================================");
@@ -150,7 +149,7 @@ public class DbManager {
 			rsAdmin.close();
 
 			System.out.println("=====================================");
-			System.out.println("✅ All test data inserted successfully!");
+			System.out.println(" All test data inserted successfully!");
 			System.out.println("=====================================");
 			System.out.println("Summary:");
 			System.out.println("  - Client 1: " + clientId1 + " | User: client1 / Pass: client1 | Accounts: ACC100 (100), ACC200 (200)");
@@ -164,269 +163,242 @@ public class DbManager {
 	}
 
 
+*/
+
+    public boolean auth(String username, String motPasse) {
+        try {
+            String query = "SELECT * FROM UTILISATEUR " + "WHERE username = ? AND mot_pass = ?";
+
+            PreparedStatement ps = conn.prepareStatement(query);
+
+            ps.setString(1, username);
+            ps.setString(2, hash(motPasse));
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // operation
+    public double consulterSolde(String numCompte) {
+        try {
+            String query = "SELECT solde FROM COMPTE WHERE numero_compte = ? AND actif = true";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, numCompte);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+                return rs.getDouble("solde");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // account not error
+    }
 
 
+    public boolean deposer(String numCompte, double montant) {
+        try {
+            String query = "UPDATE COMPTE SET solde = solde + ? " + "WHERE numero_compte = ? AND actif = true";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setDouble(1, montant);
+            ps.setString(2, numCompte);
+            return ps.executeUpdate() > 0; // true = correct  false = nothing
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean retirer(String numCompte, double montant) {
+        try {
+            String query = "UPDATE COMPTE SET solde = solde - ? "
+                    + "WHERE numero_compte = ? AND actif = true AND solde >= ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setDouble(1, montant);
+            ps.setString(2, numCompte);
+            ps.setDouble(3, montant);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean virement(String source, String dest, double montant) {
+        try {
+            conn.setAutoCommit(false);  // don't commit anything
+
+            boolean acc1 = retirer(source, montant);
+            boolean acc2 = deposer(dest, montant);
+            if (acc1 && acc2) {
+                conn.commit();  // push now
+                return true;
+            } else {
+                conn.rollback(); // go back
+
+                return false;
+            }
+        } catch (SQLException e) {
+            try {
+                conn.rollback();   // it the first rollback didn t work we rollback again
+
+            } catch (SQLException ex) {
+
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
 
 
-	public boolean auth(String username, String motPasse) {
-		try {
-			String query = "SELECT * FROM UTILISATEUR " + "WHERE username = ? AND mot_pass = ?";
+        } finally {
+            try {
+                conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-			PreparedStatement ps = conn.prepareStatement(query);
+    public void enregistrerTransaction(String numCompte, String typeOp, double montant, String compteDest) {
+        try {
+            String query = "INSERT INTO TRANSACTION_B(numero_compte, type_op, montant, compte_dest) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(query);
 
-			ps.setString(1, username);
-			ps.setString(2, hash(motPasse));
+            ps.setString(1, numCompte);
+            ps.setString(2, typeOp);
+            ps.setDouble(3, montant);
+            if (compteDest == null)
+                ps.setNull(4, java.sql.Types.VARCHAR);
+            else
+                ps.setString(4, compteDest);
+            ps.executeUpdate();
 
-			ResultSet rs = ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-			return rs.next();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+    // his
+    public List<Transaction> getHistorique(String numCompte) {
+        try {
+            String query = "SELECT * FROM TRANSACTION_B WHERE numero_compte = ? ORDER BY date_op DESC";
 
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, numCompte);
+            ResultSet rs = ps.executeQuery();
 
+            List<Transaction> list = new ArrayList<>();
 
-	// operation
-	public double consulterSolde(String numeroCompte) {
-	    try {
-	        String query = "SELECT solde FROM COMPTE WHERE numero_compte = ? AND actif = true";
-	        PreparedStatement ps = conn.prepareStatement(query);
-	        ps.setString(1, numeroCompte);
-	        ResultSet rs = ps.executeQuery();
-	        if (rs.next())
-	            return rs.getDouble("solde");
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return -1; // account not found or error
-	}
+            while (rs.next()) {
+                Transaction t = new Transaction(
+                        rs.getInt("id_transaction"),
+                        rs.getString("numero_compte"),
+                        rs.getString("type_op"),
+                        rs.getDouble("montant"),
+                        rs.getTimestamp("date_op").toLocalDateTime(),
+                        rs.getString("compte_dest")
+                );
+                list.add(t);
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>(); // list vide
+        }
+    }
 
+    // admin
+    public boolean creerCompte(String titulaire, double soldeInitial) {
+        try {
+            String getUser = "SELECT id_user FROM UTILISATEUR WHERE username = ?";
+            PreparedStatement ps1 = conn.prepareStatement(getUser);
+            ps1.setString(1, titulaire);
+            ResultSet rs = ps1.executeQuery();
+            if (!rs.next())
+                return false;
 
-	public boolean deposer(String numeroCompte, double montant) {
-		try {
-			String query = "UPDATE COMPTE SET solde = solde + ? " + "WHERE numero_compte = ? AND actif = true";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setDouble(1, montant);
-			ps.setString(2, numeroCompte);
-			return ps.executeUpdate() > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+            int idUser = rs.getInt("id_user");
+            String numCompte = "CPT-" + System.currentTimeMillis();
 
+            String query = "INSERT INTO COMPTE(numero_compte, solde, id_user) VALUES (?, ?, ?)";
 
-	public boolean retirer(String numeroCompte, double montant) {
-		try {
-			String query = "UPDATE COMPTE SET solde = solde - ? "
-					+ "WHERE numero_compte = ? AND actif = true AND solde >= ?";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setDouble(1, montant);
-			ps.setString(2, numeroCompte);
-			ps.setDouble(3, montant);
-			return ps.executeUpdate() > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+            PreparedStatement ps2 = conn.prepareStatement(query);
+            ps2.setString(1, numCompte);
+            ps2.setDouble(2, soldeInitial);
+            ps2.setInt(3, idUser);
+            return ps2.executeUpdate() > 0;
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-	public boolean virement(String source, String dest, double montant) {
-	    try {
-	        conn.setAutoCommit(false);
-	        boolean acc1 = retirer(source, montant);
-	        boolean acc2 = deposer(dest, montant);
-	        if (acc1 && acc2) {
-	            conn.commit();
-	            return true;
-	        } else {
-	            conn.rollback();
-	            return false;
-	        }
-	    } catch (SQLException e) {
-	        try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
-	        e.printStackTrace();
-	        return false;
-	    } finally {
-	        try { conn.setAutoCommit(true); } catch (SQLException e) { e.printStackTrace(); }
-	    }
-	}
+    public boolean supprimerCompte(String numCompte) {
+        try {
+            String query = "UPDATE COMPTE SET actif = false WHERE numero_compte = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, numCompte);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-	public List<Compte> listerComptesParUser(int idUser) {
-	    try {
-	        String query = "SELECT * FROM COMPTE WHERE id_user = ? ORDER BY numero_compte";
-	        PreparedStatement ps = conn.prepareStatement(query);
-	        ps.setInt(1, idUser);
-	        ResultSet rs = ps.executeQuery();
-	        List<Compte> comptes = new ArrayList<>();
-	        while (rs.next()) {
-	            Compte c = new Compte(
-	                rs.getString("numero_compte"),
-	                rs.getDouble("solde"),
-	                rs.getDate("date_creation").toLocalDate(),
-	                rs.getBoolean("actif"),
-	                rs.getInt("id_user")
-	            );
-	            comptes.add(c);
-	        }
-	        return comptes;
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return new ArrayList<>(); // return empty list on error
-	    }
-	}
+    public List<Compte> listerComptes(String username) {
+        if (conn == null) {
+            System.err.println("connection  is null");
+            return new ArrayList<>(); // vide list
+        }
 
-	public void enregistrerTransaction(String numeroCompte, String typeOp, double montant, String compteDest) {
-	    try {
-	        String query = "INSERT INTO TRANSACTION_B(numero_compte, type_op, montant, compte_dest) VALUES (?, ?, ?, ?)";
-	        PreparedStatement ps = conn.prepareStatement(query);
-	        ps.setString(1, numeroCompte);
-	        ps.setString(2, typeOp);
-	        ps.setDouble(3, montant);
-	        if (compteDest == null)
-	            ps.setNull(4, java.sql.Types.VARCHAR);
-	        else
-	            ps.setString(4, compteDest);
-	        ps.executeUpdate();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	}
+        try {
+            if (conn.isClosed()) {
+                this.conn = DatabaseConnection.getConnection();
+            }
 
+            String query = "SELECT c.numero_compte, c.solde, c.date_creation, c.actif, c.id_user " +
+                    "FROM COMPTE c " +
+                    "JOIN UTILISATEUR u ON c.id_user = u.id_user " +
+                    "WHERE u.username = ? AND c.actif = 1 " +
+                    "ORDER BY c.numero_compte";
 
-	// his
-	public List<Transaction> getHistorique(String numeroCompte) {
-	    try {
-	        String query = "SELECT * FROM TRANSACTION_B WHERE numero_compte = ? ORDER BY date_op DESC";
-	        PreparedStatement ps = conn.prepareStatement(query);
-	        ps.setString(1, numeroCompte);
-	        ResultSet rs = ps.executeQuery();
-	        List<Transaction> list = new ArrayList<>();
-	        while (rs.next()) {
-	            Transaction t = new Transaction(
-	                rs.getInt("id_transaction"),
-	                rs.getString("numero_compte"),
-	                rs.getString("type_op"),
-	                rs.getDouble("montant"),
-	                rs.getTimestamp("date_op").toLocalDateTime(),
-	                rs.getString("compte_dest")
-	            );
-	            list.add(t);
-	        }
-	        return list;
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return new ArrayList<>(); // return empty list on error
-	    }
-	}
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
 
+            List<Compte> comptes = new ArrayList<>();
 
-	// admin
-	public boolean creerCompte(String titulaire, double soldeInitial) {
-	    try {
-	        String getUser = "SELECT id_user FROM UTILISATEUR WHERE username = ?";
-	        PreparedStatement ps1 = conn.prepareStatement(getUser);
-	        ps1.setString(1, titulaire);
-	        ResultSet rs = ps1.executeQuery();
-	        if (!rs.next())
-	            return false;
-	        int idUser = rs.getInt("id_user");
-	        String numeroCompte = "CPT-" + System.currentTimeMillis();
-	        String query = "INSERT INTO COMPTE(numero_compte, solde, id_user) VALUES (?, ?, ?)";
-	        PreparedStatement ps2 = conn.prepareStatement(query);
-	        ps2.setString(1, numeroCompte);
-	        ps2.setDouble(2, soldeInitial);
-	        ps2.setInt(3, idUser);
-	        return ps2.executeUpdate() > 0;
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return false;
-	    }
-	}
+            while (rs.next()) {
+                Compte c = new Compte();
+                c.setNumeroCompte(rs.getString("numero_compte"));
+                c.setSolde(rs.getDouble("solde"));
+                Date dateCreation = rs.getDate("date_creation");
 
-	public boolean supprimerCompte(String numeroCompte) {
-	    try {
-	        String query = "UPDATE COMPTE SET actif = false WHERE numero_compte = ?";
-	        PreparedStatement ps = conn.prepareStatement(query);
-	        ps.setString(1, numeroCompte);
-	        return ps.executeUpdate() > 0;
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return false;
-	    }
-	}
+                if (dateCreation != null)  c.setDateCreation(dateCreation.toLocalDate()); // take the current time
 
-	public List<Compte> listerComptes(String username) {
-		System.out.println("=== DbManager.listerComptes START ===");
-		System.out.println("Username: " + username);
-		System.out.println("Connection status: " + (conn != null ? "valid" : "NULL"));
+                c.setActif(rs.getBoolean("actif"));
+                c.setIdUser(rs.getInt("id_user"));
+                comptes.add(c);
+            }
 
-		if (conn == null) {
-			System.err.println("❌ Connection is null!");
-			return new ArrayList<>();
-		}
+            rs.close();
+            ps.close();
+            return comptes;
 
-		try {
-			// Check if connection is closed
-			if (conn.isClosed()) {
-				System.err.println("❌ Connection is closed! Reconnecting...");
-				this.conn = DatabaseConnection.getConnection();
-			}
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>(); // list vide
+        }
+    }
 
-			String query = "SELECT c.numero_compte, c.solde, c.date_creation, c.actif, c.id_user " +
-					"FROM COMPTE c " +
-					"JOIN UTILISATEUR u ON c.id_user = u.id_user " +
-					"WHERE u.username = ? AND c.actif = 1 " +
-					"ORDER BY c.numero_compte";
-
-			System.out.println("SQL Query: " + query);
-			System.out.println("Parameter: " + username);
-
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, username);
-			ResultSet rs = ps.executeQuery();
-
-			List<Compte> comptes = new ArrayList<>();
-
-			while (rs.next()) {
-				String numCompte = rs.getString("numero_compte");
-				double solde = rs.getDouble("solde");
-				Date dateCreation = rs.getDate("date_creation");
-				boolean actif = rs.getBoolean("actif");
-				int idUser = rs.getInt("id_user");
-
-				System.out.println("Found account: " + numCompte + " Balance: " + solde);
-
-				Compte c = new Compte();
-				c.setNumeroCompte(numCompte);
-				c.setSolde(solde);
-				if (dateCreation != null) {
-					c.setDateCreation(dateCreation.toLocalDate());
-				}
-				c.setActif(actif);
-				c.setIdUser(idUser);
-
-				comptes.add(c);
-			}
-
-			rs.close();
-			ps.close();
-
-			System.out.println("=== DbManager.listerComptes END - Found " + comptes.size() + " accounts ===");
-			return comptes;
-
-		} catch (SQLException e) {
-			System.err.println("❌ SQL Error in listerComptes: " + e.getMessage());
-			e.printStackTrace();
-			return new ArrayList<>();
-		}
-	}
-
-	// Run this first to insert test data
-	public static void main(String[] args) {
+// this for insert data to the db  
+/*public static void main(String[] args) {
 		try {
 			DbManager db = new DbManager();
 			db.test_the_db();
@@ -443,5 +415,7 @@ public class DbManager {
 			e.printStackTrace();
 		}
 	}
+	
+ */
 
 }

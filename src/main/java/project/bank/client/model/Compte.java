@@ -14,7 +14,6 @@ public class Compte implements Serializable {
     private boolean actif;
     private int idUser;
     private String clientName;
-    private String lastTransaction;
 
     public Compte() {
     }
@@ -27,7 +26,6 @@ public class Compte implements Serializable {
         this.idUser = idUser;
     }
 
-    // Getters
     public String getNumeroCompte() {
         return numeroCompte;
     }
@@ -52,11 +50,7 @@ public class Compte implements Serializable {
         return clientName;
     }
 
-    public String getLastTransaction() {
-        return lastTransaction;
-    }
 
-    // Setters
     public void setNumeroCompte(String numeroCompte) {
         this.numeroCompte = numeroCompte;
     }
@@ -81,16 +75,9 @@ public class Compte implements Serializable {
         this.clientName = clientName;
     }
 
-    public void setLastTransaction(String lastTransaction) {
-        this.lastTransaction = lastTransaction;
-    }
 
-    // Formatted date for table display
-    public String getFormattedDateCreation() {
-        if (dateCreation == null) return "";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return dateCreation.format(formatter);
-    }
+
+
 
     @Override
     public String toString() {

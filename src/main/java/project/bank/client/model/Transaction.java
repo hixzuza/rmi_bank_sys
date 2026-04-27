@@ -26,36 +26,25 @@ public class Transaction implements Serializable {
         this.compteDest = compteDest;
     }
 
-    // Getters and Setters
     public int getIdTransaction() { return idTransaction; }
     public void setIdTransaction(int idTransaction) { this.idTransaction = idTransaction; }
-
     public String getNumeroCompte() { return numeroCompte; }
     public void setNumeroCompte(String numeroCompte) { this.numeroCompte = numeroCompte; }
-
     public String getTypeOp() { return typeOp; }
     public void setTypeOp(String typeOp) { this.typeOp = typeOp; }
-
     public double getMontant() { return montant; }
     public void setMontant(double montant) { this.montant = montant; }
-
     public LocalDateTime getDateOp() { return dateOp; }
     public void setDateOp(LocalDateTime dateOp) { this.dateOp = dateOp; }
-
     public String getCompteDest() { return compteDest; }
     public void setCompteDest(String compteDest) { this.compteDest = compteDest; }
 
-    // Formatted date for table display
-    public String getFormattedDateOp() {
-        if (dateOp == null) return "";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return dateOp.format(formatter);
-    }
+
 
     @Override
     public String toString() {
-        return "Transaction{" +
-                "id=" + idTransaction +
+        return "   Transaction  { " +
+                "  id=" + idTransaction +
                 ", compte=" + numeroCompte +
                 ", type='" + typeOp + '\'' +
                 ", montant=" + montant +

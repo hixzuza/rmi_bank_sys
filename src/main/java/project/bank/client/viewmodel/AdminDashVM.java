@@ -26,7 +26,7 @@ public class AdminDashVM {
 
     @FXML
     private void delectACC() {
-        loadView("/project/bank/AdminCreateCompteVM.fxml");
+        loadView("/project/bank/AdminDeleteCompte.fxml");
     }
     @FXML
     private void switchU() {

@@ -31,14 +31,15 @@ public class BanqueServiceImpl extends UnicastRemoteObject implements IBanqueSer
 
     // auth
     @Override
-    public boolean authentifier(String login, String motDePasse) throws RemoteException {
-        System.out.println(" authentifier: " + login);
-        return db.auth(login, motDePasse);
+    public boolean authentifier(String login, String password) throws RemoteException {
+        System.out.println(" AUTH =  " + login);
+        return db.auth(login, password);
     }
+
 
     // Get user by username
     public Utilisateur getUserByUsername(String username) throws RemoteException {
-        System.out.println("→ getUserByUsername: " + username);
+        System.out.println(" getUserByUsername: " + username);
 
         String sql = "SELECT id_user, username, nom, prenom, role FROM UTILISATEUR WHERE username = ?";
 
@@ -50,72 +51,79 @@ public class BanqueServiceImpl extends UnicastRemoteObject implements IBanqueSer
 
             if (rs.next()) {
                 Utilisateur user = new Utilisateur();
+
                 user.setIdUser(rs.getInt("id_user"));
                 user.setUsername(rs.getString("username"));
                 user.setNom(rs.getString("nom"));
                 user.setPrenom(rs.getString("prenom"));
                 user.setRole(rs.getString("role"));
 
-                System.out.println("✅ User found: " + user.getNom() + " " + user.getPrenom());
+                System.out.println(" user found: " + user.getNom() + "  |  " + user.getPrenom());
                 return user;
             } else {
-                System.out.println("⚠️ No user found with username: " + username);
+                System.out.println(" no user found with username: " + username);
             }
         } catch (SQLException e) {
-            System.err.println("❌ Error fetching user: " + e.getMessage());
+            System.err.println(" error getting  user: " + e.getMessage());
             e.printStackTrace();
-            throw new RemoteException("Error fetching user data: " + e.getMessage(), e);
         }
         return null;
     }
 
     // client operations
     @Override
-    public double consulterSolde(String numeroCompte) throws RemoteException {
-        System.out.println("→ consulterSolde: " + numeroCompte);
+    public double consulterSolde(String numCompte) throws RemoteException {
+        System.out.println(" SOLD = " + numCompte);
         try {
-            return db.consulterSolde(numeroCompte);
+            return db.consulterSolde(numCompte);
         } catch (Exception e) {
-            throw new RemoteException(e.getMessage());
+            e.printStackTrace();
+            return -1;
         }
     }
 
     @Override
-    public boolean deposer(String numeroCompte, double montant) throws RemoteException {
-        System.out.println("→ deposer: " + numeroCompte + " montant: " + montant);
+    public boolean deposer(String numCompte, double montant) throws RemoteException {
+        System.out.println(" deposer : " + numCompte + " montant : " + montant);
         try {
-            boolean result = db.deposer(numeroCompte, montant);
+            boolean result = db.deposer(numCompte, montant);
             if (result)
-                db.enregistrerTransaction(numeroCompte, "DEPOT", montant, null);
+                db.enregistrerTransaction(numCompte, "DEPOT", montant, null);
             return result;
         } catch (Exception e) {
-            throw new RemoteException(e.getMessage());
+            e.printStackTrace();
+            return false;
+
         }
     }
+
 
     @Override
     public boolean retirer(String numeroCompte, double montant) throws RemoteException {
-        System.out.println("→ retirer: " + numeroCompte + " montant: " + montant);
+        System.out.println(" retirer : " + numeroCompte + " montant: " + montant);
         try {
             boolean result = db.retirer(numeroCompte, montant);
             if (result)
                 db.enregistrerTransaction(numeroCompte, "RETRAIT", montant, null);
             return result;
         } catch (Exception e) {
-            throw new RemoteException(e.getMessage());
+            e.printStackTrace();
+            return false;
+
         }
     }
 
     @Override
     public boolean virement(String compteSource, String compteDest, double montant) throws RemoteException {
-        System.out.println("→ virement: " + compteSource + " → " + compteDest + " montant: " + montant);
+        System.out.println(" virement : " + compteSource + " ==>  " + compteDest + " montant : " + montant);
         try {
             boolean result = db.virement(compteSource, compteDest, montant);
             if (result)
                 db.enregistrerTransaction(compteSource, "VIREMENT", montant, compteDest);
             return result;
         } catch (Exception e) {
-            throw new RemoteException(e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -131,12 +139,14 @@ public class BanqueServiceImpl extends UnicastRemoteObject implements IBanqueSer
 
     // admin operations
     @Override
-    public boolean creerCompte(String titulaire, double soldeInitial) throws RemoteException {
-        System.out.println("→ creerCompte: " + titulaire + " solde: " + soldeInitial);
+    public boolean creerCompte(String numCompte, double soldeInitial) throws RemoteException {
+        System.out.println(" creerCompte : " + numCompte + " sold : " + soldeInitial);
         try {
-            return db.creerCompte(titulaire, soldeInitial);
+            return db.creerCompte(numCompte, soldeInitial);
+
         } catch (Exception e) {
-            throw new RemoteException(e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -152,21 +162,10 @@ public class BanqueServiceImpl extends UnicastRemoteObject implements IBanqueSer
 
     @Override
     public List<Compte> listerComptes(String username) throws RemoteException {
-        System.out.println("→ listerComptes called for username: " + username);
+        System.out.println("lister Comptes for : " + username);
         try {
-            List<Compte> comptes = db.listerComptes(username);
-            System.out.println("Found " + (comptes != null ? comptes.size() : 0) + " accounts");
-
-            // Debug: Print each account
-            if (comptes != null) {
-                for (Compte c : comptes) {
-                    System.out.println("  Account: " + c.getNumeroCompte() + " Balance: " + c.getSolde());
-                }
-            }
-
-            return comptes;
+            return db.listerComptes(username);
         } catch (Exception e) {
-            System.err.println("❌ Error in listerComptes: " + e.getMessage());
             e.printStackTrace();
             throw new RemoteException(e.getMessage());
         }

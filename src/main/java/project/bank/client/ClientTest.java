@@ -6,6 +6,8 @@ import java.util.List;
 
 import project.bank.commun.IBanqueService;
 
+// this class just for test the connectin between the client and server --RMI--
+
 public class ClientTest {
 
     /*public static void main(String[] args) {
@@ -22,7 +24,7 @@ public class ClientTest {
             System.out.println("authentification : " + ok);
 
             if (!ok) {
-                System.out.println("❌ Auth failed, stopping tests.");
+                System.out.println(" Auth failed, stopping tests.");
                 return;
             }
 
@@ -86,7 +88,7 @@ public class ClientTest {
             System.out.println("\n✔ ALL TESTS COMPLETED SUCCESSFULLY");
 
         } catch (Exception e) {
-            System.out.println("❌ ERROR DURING TESTS");
+            System.out.println(" ERROR DURING TESTS");
             e.printStackTrace();
         }
     }*/

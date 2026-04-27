@@ -63,33 +63,33 @@
     <left>
         <VBox prefWidth="210.0" style="-fx-background-color: #181818; -fx-border-color: #c99931;">
             <children>
-                <Button mnemonicParsing="false" onAction="#ListAcc" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="View balance">
+                <Button mnemonicParsing="false" onAction="#ListAcc" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/side_menu_button.css" text="View balance">
                     <VBox.margin>
                         <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#Deposer" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="Deposit money">
+                <Button mnemonicParsing="false" onAction="#Deposer" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/side_menu_button.css" text="Deposit money">
                     <VBox.margin>
                         <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#Retirer" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="Withdraw money">
+                <Button mnemonicParsing="false" onAction="#Retirer" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/side_menu_button.css" text="Withdraw money">
                     <VBox.margin>
                         <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#Virement" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="Transfer money">
+                <Button mnemonicParsing="false" onAction="#Virement" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/side_menu_button.css" text="Transfer money">
                     <VBox.margin>
                         <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#History" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="View transaction">
+                <Button mnemonicParsing="false" onAction="#History" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/side_menu_button.css" text="View transaction">
                     <VBox.margin>
                         <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
                     </VBox.margin>
                 </Button>
                 <Region VBox.vgrow="ALWAYS" />
-            <Button fx:id="adm_cli_btn" alignment="CENTER" graphicTextGap="47.0" layoutX="19.0" layoutY="339.0" mnemonicParsing="false" onAction="#switchU" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/ClientDash.css" text="SWITCH" textAlignment="CENTER">
+            <Button fx:id="adm_cli_btn" alignment="CENTER" graphicTextGap="47.0" layoutX="19.0" layoutY="339.0" mnemonicParsing="false" onAction="#switchU" prefHeight="61.0" prefWidth="192.0" styleClass="sidebar-button" stylesheets="@css/side_menu_button.css" text="SWITCH" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="9.0" left="9.0" right="9.0" top="9.0" />
                </VBox.margin>
