@@ -23,7 +23,7 @@ public class ClientDeposerVM implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Display current user's name
+        // display current user  name
         Utilisateur currentUser = SessionManager.getInstance().getCurrentUser();
         if (currentUser != null) {
             String fullName = (currentUser.getNom() != null ? currentUser.getNom() : "") +
@@ -39,7 +39,7 @@ public class ClientDeposerVM implements Initializable {
         String montantText = montantField.getText().trim();
 
         if (numeroCompte.isEmpty() || montantText.isEmpty()) {
-            showMessage("Please fill all fields", true);
+            showMessage("please fill all fields", true);
             return;
         }
 
@@ -47,7 +47,7 @@ public class ClientDeposerVM implements Initializable {
             double montant = Double.parseDouble(montantText);
 
             if (montant <= 0) {
-                showMessage("Amount must be greater than 0", true);
+                showMessage("amount must be greater than 0", true);
                 return;
             }
 
@@ -55,16 +55,16 @@ public class ClientDeposerVM implements Initializable {
             boolean success = service.deposer(numeroCompte, montant);
 
             if (success) {
-                showMessage("✅ Deposit successful! +" + montant + " DH", false);
+                showMessage(" deposit successful! +" + montant + " ", false);
                 handleEmpty();
             } else {
-                showMessage("❌ Deposit failed. Check account number.", true);
+                showMessage(" deposit failed. Check account number.", true);
             }
 
         } catch (NumberFormatException e) {
-            showMessage("❌ Invalid amount format", true);
+            showMessage(" invalid amount format", true);
         } catch (Exception e) {
-            showMessage("❌ Error: " + e.getMessage(), true);
+            showMessage(" error: " + e.getMessage(), true);
             e.printStackTrace();
         }
     }
@@ -76,10 +76,10 @@ public class ClientDeposerVM implements Initializable {
         messageLabel.setText("");
     }
 
-    private void showMessage(String message, boolean isError) {
+    private void showMessage(String message, boolean iserror) {
         if (messageLabel != null) {
             messageLabel.setText(message);
-            messageLabel.setStyle(isError ?
+            messageLabel.setStyle(iserror ?
                     "-fx-text-fill: red; -fx-font-weight: bold;" :
                     "-fx-text-fill: green; -fx-font-weight: bold;");
         }

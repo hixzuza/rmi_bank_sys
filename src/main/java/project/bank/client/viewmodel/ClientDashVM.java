@@ -50,16 +50,16 @@ public class ClientDashVM {
             stage.getScene().setRoot(loginView);
             stage.setTitle("BANK SYSTEM");
             stage.setWidth(360);
-//            stage.setHeight(300);
-//            stage.setMinWidth(0);
-            stage.setMinHeight(0);
-            stage.centerOnScreen();
+            stage.setHeight(300);  // UNCOMMENT THIS - it was commented
+            stage.setMinWidth(360);
+            stage.setMinHeight(300);
             stage.setResizable(false);
+            stage.centerOnScreen();
 
             SessionManager.getInstance().clear();
 
         } catch (IOException e) {
-            System.out.println("Error loading login view");
+            System.out.println("error loading login view");
             e.printStackTrace();
         }
     }
@@ -70,7 +70,7 @@ public class ClientDashVM {
             Parent view = loader.load();
             stackPane.getChildren().setAll(view);
         } catch (IOException e) {
-            System.out.println("Error loading view: " + fxmlPath);
+            System.out.println("error loading view: " + fxmlPath);
             e.printStackTrace();
         }
     }

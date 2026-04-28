@@ -38,11 +38,11 @@ public class ClientAllAccVM implements Initializable {
         try {
             service = new BanqueServiceImpl();
 
-            // Set up table columns
+            // set up table columns
             colCompte.setCellValueFactory(new PropertyValueFactory<>("numeroCompte"));
             colBalence.setCellValueFactory(new PropertyValueFactory<>("solde"));
 
-            // Format balance with 2 decimal places
+            // format balance with 2 decimal places
             colBalence.setCellFactory(column -> new javafx.scene.control.TableCell<Compte, Double>() {
                 @Override
                 protected void updateItem(Double item, boolean empty) {
@@ -55,15 +55,15 @@ public class ClientAllAccVM implements Initializable {
                 }
             });
 
-            // Get current user from session
+            // get current user from session
             Utilisateur currentUser = SessionManager.getInstance().getCurrentUser();
 
             if (currentUser != null) {
-                // Fetch full user details including nom and prenom
+                // get full user details including nom and prenom
                 Utilisateur fullUser = service.getUserByUsername(currentUser.getUsername());
 
                 if (fullUser != null) {
-                    // Build full name from nom and prenom
+                    // make full name from nom and prenom
                     String nom = fullUser.getNom() != null ? fullUser.getNom() : "";
                     String prenom = fullUser.getPrenom() != null ? fullUser.getPrenom() : "";
                     String fullName = (nom + " " + prenom).trim();
@@ -71,7 +71,7 @@ public class ClientAllAccVM implements Initializable {
                     // Set the client name (e.g., "A BB" or "M SS")
                     nomclient.setText(fullName.isEmpty() ? currentUser.getUsername() : fullName);
 
-                    // Set username as secondary label
+                    // set username as secondary label
                 } else {
                     nomclient.setText(currentUser.getUsername());
 
@@ -82,7 +82,7 @@ public class ClientAllAccVM implements Initializable {
             loadAccounts();
 
         } catch (Exception e) {
-            System.err.println("Error initializing: " + e.getMessage());
+            System.err.println(" error  initializing: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -95,14 +95,14 @@ public class ClientAllAccVM implements Initializable {
 
                 if (comptes != null && !comptes.isEmpty()) {
                     tableView.setItems(FXCollections.observableArrayList(comptes));
-                    System.out.println("Loaded " + comptes.size() + " accounts");
+                    System.out.println("load  " + comptes.size() + " accounts");
                 } else {
-                    System.out.println("No accounts found for user: " + currentUser.getUsername());
+                    System.out.println("no accounts found for user: " + currentUser.getUsername());
                     tableView.setItems(FXCollections.observableArrayList());
                 }
             }
         } catch (Exception e) {
-            System.err.println("Error loading accounts: " + e.getMessage());
+            System.err.println(" error  loading accounts: " + e.getMessage());
             e.printStackTrace();
         }
     }

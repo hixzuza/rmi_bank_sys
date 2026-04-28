@@ -30,14 +30,13 @@ public class ClientHistoryVM implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Set up table columns - must match Transaction property names exactly
         colDateHeure.setCellValueFactory(new PropertyValueFactory<>("formattedDateOp"));
         colType.setCellValueFactory(new PropertyValueFactory<>("typeOp"));
         colMontant.setCellValueFactory(new PropertyValueFactory<>("montant"));
         colCompteSource.setCellValueFactory(new PropertyValueFactory<>("numeroCompte"));
         colCompteDest.setCellValueFactory(new PropertyValueFactory<>("compteDest"));
 
-        // Display current user's name
+        // display current user name
         Utilisateur currentUser = SessionManager.getInstance().getCurrentUser();
         if (currentUser != null) {
             String fullName = (currentUser.getNom() != null ? currentUser.getNom() : "") +
@@ -45,7 +44,7 @@ public class ClientHistoryVM implements Initializable {
                     (currentUser.getPrenom() != null ? currentUser.getPrenom() : "");
             nomclient2.setText(fullName.trim());
 
-            // Load transaction history
+            // load transaction history
             loadHistory(currentUser.getUsername());
         }
     }
@@ -54,12 +53,12 @@ public class ClientHistoryVM implements Initializable {
         try {
             BanqueServiceImpl service = new BanqueServiceImpl();
 
-            // Get all accounts for this user
+            // get all accounts for this user
             List<Compte> comptes = service.listerComptes(username);
 
             ObservableList<Transaction> allTransactions = FXCollections.observableArrayList();
 
-            // Get history for each account
+            // get history for each account
             for (Compte compte : comptes) {
                 List<Transaction> transactions = service.getHistorique(compte.getNumeroCompte());
                 if (transactions != null) {
@@ -67,17 +66,17 @@ public class ClientHistoryVM implements Initializable {
                 }
             }
 
-            // Sort by date (most recent first)
+            // sort by date
             FXCollections.sort(allTransactions, (t1, t2) -> {
                 if (t1.getDateOp() == null || t2.getDateOp() == null) return 0;
                 return t2.getDateOp().compareTo(t1.getDateOp());
             });
 
             tableView.setItems(allTransactions);
-            System.out.println("Loaded " + allTransactions.size() + " transactions");
+            System.out.println("load " + allTransactions.size() + " transactions");
 
         } catch (Exception e) {
-            System.err.println("Error loading history: " + e.getMessage());
+            System.err.println("error loading history: " + e.getMessage());
             e.printStackTrace();
         }
     }

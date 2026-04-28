@@ -10,7 +10,7 @@ import project.bank.commun.IBanqueService;
 
 public class ClientTest {
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         try {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 
@@ -79,11 +79,11 @@ public class ClientTest {
             // =========================
             // 7. LIST ACCOUNTS
             // =========================
-            System.out.println("\n--- LISTE COMPTES ---");
-            List<?> comptes = service.listerComptes();
-            for (Object c : comptes) {
-                System.out.println(c);
-            }
+//            System.out.println("\n--- LISTE COMPTES ---");
+//            List<?> comptes = service.listerComptes();
+//            for (Object c : comptes) {
+//                System.out.println(c);
+//            }
 
             System.out.println("\n✔ ALL TESTS COMPLETED SUCCESSFULLY");
 
@@ -91,5 +91,5 @@ public class ClientTest {
             System.out.println(" ERROR DURING TESTS");
             e.printStackTrace();
         }
-    }*/
+    }
 }

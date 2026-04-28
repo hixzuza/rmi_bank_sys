@@ -138,12 +138,24 @@ public class BanqueServiceImpl extends UnicastRemoteObject implements IBanqueSer
     }
 
     // admin operations
+    // Change this method to accept nom and prenom instead of username
     @Override
-    public boolean creerCompte(String numCompte, double soldeInitial) throws RemoteException {
-        System.out.println(" creerCompte : " + numCompte + " sold : " + soldeInitial);
+    public boolean creerCompte(String titulaire, double soldeInitial) throws RemoteException {
+        System.out.println(" creerCompte : " + titulaire + " solde : " + soldeInitial);
         try {
-            return db.creerCompte(numCompte, soldeInitial);
+            // Split the full name into nom and prenom
+            String[] nameParts = titulaire.trim().split(" ");
+            if (nameParts.length < 2) {
+                System.err.println("Invalid name format. Please provide both first and last name.");
+                return false;
+            }
 
+            String nom = nameParts[0].trim();
+            String prenom = nameParts[1].trim();
+
+            System.out.println("Searching for: nom=" + nom + ", prenom=" + prenom);
+
+            return db.creerCompte(nom, prenom, soldeInitial);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

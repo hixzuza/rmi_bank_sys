@@ -23,7 +23,6 @@ public class ClientRetirerVM implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Display current user's name
         Utilisateur currentUser = SessionManager.getInstance().getCurrentUser();
         if (currentUser != null) {
             String fullName = (currentUser.getNom() != null ? currentUser.getNom() : "") +

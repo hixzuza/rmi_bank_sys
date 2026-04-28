@@ -35,7 +35,7 @@
                                 </VBox>
 
                                 <!-- Warning Message -->
-                                <Label styleClass="warning-label" text="⚠ Warning: This action cannot be undone!" />
+                                <Label graphicTextGap="7.0" prefHeight="27.0" prefWidth="170.0" styleClass="warning-label" text="action cannot go back" textAlignment="CENTER" />
                             </children>
                         </VBox>
 

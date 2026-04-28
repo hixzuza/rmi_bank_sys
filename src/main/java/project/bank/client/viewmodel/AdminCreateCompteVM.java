@@ -1,32 +1,29 @@
-
 package project.bank.client.viewmodel;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import project.bank.client.model.SessionManager;
 import project.bank.client.model.Utilisateur;
-import project.bank.server.impl.BanqueServiceImpl;
+import project.bank.commun.ClientRMI;
+import project.bank.commun.IBanqueService;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class AdminCreateCompteVM implements Initializable {
 
     @FXML
-    private TextField usernameField;
+    private TextField firstNameField;
+
+    @FXML
+    private TextField lastNameField;
 
     @FXML
     private TextField balanceField;
-
-    @FXML
-    private Button createButton;
-
-    @FXML
-    private Button cancelButton;
 
     @FXML
     private Label adminName;
@@ -34,38 +31,49 @@ public class AdminCreateCompteVM implements Initializable {
     @FXML
     private Label statusLabel;
 
-    private BanqueServiceImpl service;
+    private IBanqueService service;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            service = new BanqueServiceImpl();
+            // Connect to RMI server
+            service = ClientRMI.getService();
 
-            // Set admin name
+            // Set admin name from session
             Utilisateur currentUser = SessionManager.getInstance().getCurrentUser();
             if (currentUser != null) {
                 String adminFullName = (currentUser.getNom() != null ? currentUser.getNom() : "") + " " +
                         (currentUser.getPrenom() != null ? currentUser.getPrenom() : "");
                 adminName.setText(adminFullName.trim().isEmpty() ? "Admin" : adminFullName.trim());
+            } else {
+                adminName.setText("Admin");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
+            showError("Failed to connect to server: " + e.getMessage());
         }
     }
 
     @FXML
     private void createAccount() {
-        String username = usernameField.getText().trim();
+        String firstName = firstNameField.getText().trim();
+        String lastName = lastNameField.getText().trim();
         String balanceText = balanceField.getText().trim();
 
         // Validation
-        if (username.isEmpty()) {
-            showError("Please enter a username");
+        if (firstName.isEmpty()) {
+            showError("Please enter client first name");
+            return;
+        }
+
+        if (lastName.isEmpty()) {
+            showError("Please enter client last name");
             return;
         }
 
         if (balanceText.isEmpty()) {
-            showError("Please enter an initial balance");
+            showError("Please enter a balance");
             return;
         }
 
@@ -82,25 +90,31 @@ public class AdminCreateCompteVM implements Initializable {
         }
 
         try {
-            boolean success = service.creerCompte(username, balance);
+            // Combine first name and last name to pass as "titulaire"
+            String fullName = firstName + " " + lastName;
+
+            // Call RMI method with full name and balance
+            boolean success = service.creerCompte(fullName, balance);
 
             if (success) {
                 statusLabel.setTextFill(Color.web("#5DCF5D"));
-                statusLabel.setText("✓ Account created successfully!");
-                usernameField.clear();
+                statusLabel.setText("✓ Account created successfully for: " + firstName + " " + lastName);
+                firstNameField.clear();
+                lastNameField.clear();
                 balanceField.clear();
             } else {
-                showError("Failed to create account. User may not exist.");
+                showError("Failed to create account. Client not found with name: " + firstName + " " + lastName);
             }
-        } catch (Exception e) {
-            showError("Error: " + e.getMessage());
+        } catch (RemoteException e) {
+            showError("Server error: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @FXML
     private void cancel() {
-        usernameField.clear();
+        firstNameField.clear();
+        lastNameField.clear();
         balanceField.clear();
         statusLabel.setText("");
     }

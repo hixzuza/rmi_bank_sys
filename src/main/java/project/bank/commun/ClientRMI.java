@@ -3,7 +3,7 @@ package project.bank.commun;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class ServiceLocator {
+public class ClientRMI {
 
     private static IBanqueService service;
     private static boolean connected = false;

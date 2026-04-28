@@ -6,10 +6,9 @@ import project.bank.server.impl.BanqueServiceImpl;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-// this class just for test the connectin between the client and server --RMI--
 public class ServeurPrincipal {
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         try {
 
             Registry registry;
@@ -32,5 +31,5 @@ public class ServeurPrincipal {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 }

@@ -313,25 +313,79 @@ public class DbManager {
     }
 
     // admin
-    public boolean creerCompte(String titulaire, double soldeInitial) {
+// admin
+    // admin
+    public boolean creerCompte(String nom, String prenom, double soldeInitial) {
         try {
-            String getUser = "SELECT id_user FROM UTILISATEUR WHERE username = ?";
+            // Case-insensitive search using UPPER() function
+            String getUser = "SELECT id_user, username FROM UTILISATEUR WHERE UPPER(nom) = UPPER(?) AND UPPER(prenom) = UPPER(?) AND role = 'CLIENT'";
             PreparedStatement ps1 = conn.prepareStatement(getUser);
-            ps1.setString(1, titulaire);
+            ps1.setString(1, nom);
+            ps1.setString(2, prenom);
             ResultSet rs = ps1.executeQuery();
-            if (!rs.next())
-                return false;
+
+            if (!rs.next()) {
+                // Try with LIKE for partial matching (more flexible)
+                String getUserLike = "SELECT id_user, username FROM UTILISATEUR WHERE UPPER(nom) LIKE UPPER(?) AND UPPER(prenom) LIKE UPPER(?) AND role = 'CLIENT'";
+                PreparedStatement psLike = conn.prepareStatement(getUserLike);
+                psLike.setString(1, "%" + nom + "%");
+                psLike.setString(2, "%" + prenom + "%");
+                ResultSet rsLike = psLike.executeQuery();
+
+                if (!rsLike.next()) {
+                    System.out.println("User not found with name: " + nom + " " + prenom);
+                    rsLike.close();
+                    psLike.close();
+                    ps1.close();
+                    return false;
+                }
+
+                int idUser = rsLike.getInt("id_user");
+                String username = rsLike.getString("username");
+                String numCompte = "CPT-" + System.currentTimeMillis();
+
+                String query = "INSERT INTO COMPTE(numero_compte, solde, id_user, date_creation, actif) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement ps2 = conn.prepareStatement(query);
+                ps2.setString(1, numCompte);
+                ps2.setDouble(2, soldeInitial);
+                ps2.setInt(3, idUser);
+                ps2.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
+                ps2.setBoolean(5, true);
+
+                boolean success = ps2.executeUpdate() > 0;
+
+                if (success) {
+                    System.out.println("Account created for user: " + username + " (" + nom + " " + prenom + ")");
+                }
+
+                ps2.close();
+                rsLike.close();
+                psLike.close();
+                ps1.close();
+                return success;
+            }
 
             int idUser = rs.getInt("id_user");
+            String username = rs.getString("username");
             String numCompte = "CPT-" + System.currentTimeMillis();
 
-            String query = "INSERT INTO COMPTE(numero_compte, solde, id_user) VALUES (?, ?, ?)";
-
+            String query = "INSERT INTO COMPTE(numero_compte, solde, id_user, date_creation, actif) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps2 = conn.prepareStatement(query);
             ps2.setString(1, numCompte);
             ps2.setDouble(2, soldeInitial);
             ps2.setInt(3, idUser);
-            return ps2.executeUpdate() > 0;
+            ps2.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
+            ps2.setBoolean(5, true);
+
+            boolean success = ps2.executeUpdate() > 0;
+
+            if (success) {
+                System.out.println("Account created for user: " + username + " (" + nom + " " + prenom + ")");
+            }
+
+            ps2.close();
+            ps1.close();
+            return success;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -353,8 +407,8 @@ public class DbManager {
 
     public List<Compte> listerComptes(String username) {
         if (conn == null) {
-            System.err.println("connection  is null");
-            return new ArrayList<>(); // vide list
+            System.err.println("connection is null");
+            return new ArrayList<>();
         }
 
         try {
@@ -362,7 +416,9 @@ public class DbManager {
                 this.conn = DatabaseConnection.getConnection();
             }
 
-            String query = "SELECT c.numero_compte, c.solde, c.date_creation, c.actif, c.id_user " +
+            // Modified query to also get client name (nom + prenom)
+            String query = "SELECT c.numero_compte, c.solde, c.date_creation, c.actif, c.id_user, " +
+                    "u.nom, u.prenom, u.username " +
                     "FROM COMPTE c " +
                     "JOIN UTILISATEUR u ON c.id_user = u.id_user " +
                     "WHERE u.username = ? AND c.actif = 1 " +
@@ -379,11 +435,27 @@ public class DbManager {
                 c.setNumeroCompte(rs.getString("numero_compte"));
                 c.setSolde(rs.getDouble("solde"));
                 Date dateCreation = rs.getDate("date_creation");
-
-                if (dateCreation != null)  c.setDateCreation(dateCreation.toLocalDate()); // take the current time
-
+                if (dateCreation != null) {
+                    c.setDateCreation(dateCreation.toLocalDate());
+                }
                 c.setActif(rs.getBoolean("actif"));
                 c.setIdUser(rs.getInt("id_user"));
+
+                // Set client name from nom and prenom
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String clientName = "";
+                if (nom != null && !nom.isEmpty()) {
+                    clientName += nom;
+                }
+                if (prenom != null && !prenom.isEmpty()) {
+                    clientName += " " + prenom;
+                }
+                if (clientName.trim().isEmpty()) {
+                    clientName = rs.getString("username"); // Use username if no name
+                }
+                c.setClientName(clientName.trim());
+
                 comptes.add(c);
             }
 
@@ -393,7 +465,7 @@ public class DbManager {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new ArrayList<>(); // list vide
+            return new ArrayList<>();
         }
     }
 

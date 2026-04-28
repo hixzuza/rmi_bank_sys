@@ -14,17 +14,17 @@ import java.util.ResourceBundle;
 
 public class ClientVirementVM implements Initializable {
 
-    @FXML private TextField compteField;     // Source account
-    @FXML private TextField compteField1;    // Destination account
-    @FXML private TextField montantField;    // Amount
-    @FXML private Button deposerBtn;         // VIREMENT button
-    @FXML private Button emptyBtn;           // EMPTY button
-    @FXML private Label nomclient2;          // Client name
-    @FXML private Label messageLabel;        // Feedback message
+    @FXML private TextField compteField;
+    @FXML private TextField compteField1;
+    @FXML private TextField montantField;
+    @FXML private Button deposerBtn;
+    @FXML private Button emptyBtn;
+    @FXML private Label nomclient2;
+    @FXML private Label messageLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Display current user's name
+        // display current user name
         Utilisateur currentUser = SessionManager.getInstance().getCurrentUser();
         if (currentUser != null) {
             String fullName = (currentUser.getNom() != null ? currentUser.getNom() : "") +
@@ -48,7 +48,7 @@ public class ClientVirementVM implements Initializable {
 
         // Check that source and destination are different
         if (compteSource.equals(compteDest)) {
-            showMessage("❌ Source and destination accounts must be different", true);
+            showMessage(" source and destination accounts must be different", true);
             return;
         }
 
@@ -64,16 +64,16 @@ public class ClientVirementVM implements Initializable {
             boolean success = service.virement(compteSource, compteDest, montant);
 
             if (success) {
-                showMessage("✅ Transfer successful!\n" + montant + " DH from " + compteSource + " to " + compteDest, false);
+                showMessage(" transfer successful\n" + montant + " DZ from " + compteSource + " to " + compteDest, false);
                 handleEmpty();
             } else {
-                showMessage("❌ Transfer failed. Check accounts and balance.", true);
+                showMessage(" transfer failed Check accounts and balance.", true);
             }
 
         } catch (NumberFormatException e) {
-            showMessage("❌ Invalid amount format", true);
+            showMessage(" invalid amount format", true);
         } catch (Exception e) {
-            showMessage("❌ Error: " + e.getMessage(), true);
+            showMessage("error: " + e.getMessage(), true);
             e.printStackTrace();
         }
     }

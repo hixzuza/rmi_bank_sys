@@ -42,7 +42,7 @@ public class AdminDeleteCompteVM implements Initializable {
             if (currentUser != null) {
                 String adminFullName = (currentUser.getNom() != null ? currentUser.getNom() : "") + " " +
                         (currentUser.getPrenom() != null ? currentUser.getPrenom() : "");
-                adminName.setText(adminFullName.trim().isEmpty() ? "Admin" : adminFullName.trim());
+                adminName.setText(adminFullName.trim().isEmpty() ? " admin " : adminFullName.trim());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +55,7 @@ public class AdminDeleteCompteVM implements Initializable {
 
         // Validation
         if (accountNumber.isEmpty()) {
-            showError("Please enter an account number");
+            showerror("please enter an account number");
             return;
         }
 
@@ -64,13 +64,13 @@ public class AdminDeleteCompteVM implements Initializable {
 
             if (success) {
                 statusLabel.setTextFill(Color.web("#5DCF5D"));
-                statusLabel.setText("✓ Account " + accountNumber + " deleted successfully!");
+                statusLabel.setText("✓  acc " + accountNumber + " deleted successfully");
                 accountNumberField.clear();
             } else {
-                showError("Failed to delete account. Account may not exist.");
+                showerror("error to delete account.  acc may not exist.");
             }
         } catch (Exception e) {
-            showError("Error: " + e.getMessage());
+            showerror("error: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -81,7 +81,7 @@ public class AdminDeleteCompteVM implements Initializable {
         statusLabel.setText("");
     }
 
-    private void showError(String message) {
+    private void showerror(String message) {
         statusLabel.setTextFill(Color.web("#FF6B6B"));
         statusLabel.setText("✗ " + message);
     }

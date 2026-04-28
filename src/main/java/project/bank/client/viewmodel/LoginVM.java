@@ -21,17 +21,10 @@ public class LoginVM {
     TextField TxtField_login;
     @FXML
     Button login_btn, empty_btn;
-    @FXML
-    ToggleButton adm_cli_btn;
-    @FXML
-    CheckBox adminCheckBox;
 
     @FXML
     private void initialize() {
-        if (adm_cli_btn != null) {
-            adm_cli_btn.setText("CLIENT");
-            adminCheckBox.setSelected(false);
-        }
+        // No more toggle button or checkbox initialization needed
     }
 
     @FXML
@@ -45,32 +38,34 @@ public class LoginVM {
     private void Login_btn() throws RemoteException, SQLException {
         String username = TxtField_login.getText();
         String password = passField_login.getText();
-        boolean isAdmin = adminCheckBox.isSelected();
 
         if (username.isEmpty() || password.isEmpty()) {
-            setMessage("\nPlease fill all fields", true);
+            setMessage("please fill all fields", true);
             return;
         }
 
         BanqueServiceImpl service = new BanqueServiceImpl();
         boolean success = service.authentifier(username, password);
-        System.out.println("login : " + success + "  username: " + username + " admin: " + isAdmin);
+        System.out.println("login success: " + success + " username: " + username);
 
         if (success) {
-            // Fetch complete user info from server
+            // Fetch complete user info from server (includes role)
             Utilisateur user = service.getUserByUsername(username);
 
             if (user == null) {
-                // If server doesn't return user, create basic user object
-                user = new Utilisateur();
-                user.setUsername(username);
-                user.setRole(isAdmin ? "ADMIN" : "CLIENT");
+                setMessage("error: Could not retrieve user information", true);
+                return;
             }
 
             // Store in session
             SessionManager.getInstance().setCurrentUser(user);
 
-            setMessage("\nlogin successful", false);
+            // Get role directly from the user object from database
+            String role = user.getRole();
+            boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
+
+            setMessage("Login successful\n Redirecting...", false);
+
             new Thread(() -> {
                 try {
                     Thread.sleep(800);
@@ -86,10 +81,10 @@ public class LoginVM {
 
                     if (isAdmin) {
                         ViewLoader.loadInto(root, "/project/bank/AdminDash.fxml");
-                        stage.setTitle("BANK SYSTEM Admin Dashboard");
+                        stage.setTitle("BANK SYSTEM - Admin Dashboard");
                     } else {
                         ViewLoader.loadInto(root, "/project/bank/ClientDash.fxml");
-                        stage.setTitle("BANK SYSTEM Client Dashboard");
+                        stage.setTitle("BANK SYSTEM - Client Dashboard");
                     }
 
                     stage.setMinWidth(1300);
@@ -102,16 +97,16 @@ public class LoginVM {
             }).start();
 
         } else {
-            setMessage("\n invalid info \n\n try again ", true);
+            setMessage("Invalid username or password. Please try again.", true);
         }
     }
 
     public void setMessage(String message, boolean isError) {
         resLOGIN_label.setText(message);
         if (isError) {
-            resLOGIN_label.setStyle("-fx-text-fill: red;");
+            resLOGIN_label.setStyle("-fx-text-fill: red; -fx-font-size: 14px;");
         } else {
-            resLOGIN_label.setStyle("-fx-text-fill: green;");
+            resLOGIN_label.setStyle("-fx-text-fill: green; -fx-font-size: 14px;");
         }
     }
 
