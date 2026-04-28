@@ -16,23 +16,23 @@ public class AdminDashVM {
 
     @FXML
     private void ListUSER() {
-        loadView("/project/bank/AdminListAcc.fxml");
+        loadView("/project/bank/view/AdminListAcc.fxml");
     }
 
     @FXML
     private void createACC() {
-        loadView("/project/bank/AdminCreateCompte.fxml");
+        loadView("/project/bank/view/AdminCreateCompte.fxml");
     }
 
     @FXML
     private void delectACC() {
-        loadView("/project/bank/AdminDeleteCompte.fxml");
+        loadView("/project/bank/view/AdminDeleteCompte.fxml");
     }
     @FXML
     private void switchU() {
         try {
             Stage stage = (Stage) stackPane.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/project/bank/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/project/bank/view/Login.fxml"));
             Parent loginView = loader.load();
 
             stage.getScene().setRoot(loginView);

@@ -16,27 +16,27 @@ public class ClientDashVM {
 
     @FXML
     private void ListAcc() {
-        loadView("/project/bank/ClientAllAcc.fxml");
+        loadView("/project/bank/view/ClientAllAcc.fxml");
     }
 
     @FXML
     private void Deposer() {
-        loadView("/project/bank/ClientDeposer.fxml");
+        loadView("/project/bank/view/ClientDeposer.fxml");
     }
 
     @FXML
     private void Retirer() {
-        loadView("/project/bank/ClientRetirer.fxml");
+        loadView("/project/bank/view/ClientRetirer.fxml");
     }
 
     @FXML
     private void Virement() {
-        loadView("/project/bank/ClientVirement.fxml");
+        loadView("/project/bank/view/ClientVirement.fxml");
     }
 
     @FXML
     private void History() {
-        loadView("/project/bank/ClientHistory.fxml");
+        loadView("/project/bank/view/ClientHistory.fxml");
     }
 
 
@@ -44,7 +44,7 @@ public class ClientDashVM {
     private void switchU() {
         try {
             Stage stage = (Stage) stackPane.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/project/bank/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/project/bank/view/Login.fxml"));
             Parent loginView = loader.load();
 
             stage.getScene().setRoot(loginView);

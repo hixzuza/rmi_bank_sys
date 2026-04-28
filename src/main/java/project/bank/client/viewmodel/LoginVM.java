@@ -80,10 +80,10 @@ public class LoginVM {
                     stage.setResizable(false);
 
                     if (isAdmin) {
-                        ViewLoader.loadInto(root, "/project/bank/AdminDash.fxml");
+                        ViewLoader.loadInto(root, "/project/bank/view/AdminDash.fxml");
                         stage.setTitle("BANK SYSTEM - Admin Dashboard");
                     } else {
-                        ViewLoader.loadInto(root, "/project/bank/ClientDash.fxml");
+                        ViewLoader.loadInto(root, "/project/bank/view/ClientDash.fxml");
                         stage.setTitle("BANK SYSTEM - Client Dashboard");
                     }
 

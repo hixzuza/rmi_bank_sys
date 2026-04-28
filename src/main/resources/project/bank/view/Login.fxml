@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="23.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/login.png" />
+                  <Image url="@../img/login.png" />
                </image>
                <HBox.margin>
                   <Insets left="9.0" top="9.0" />
@@ -41,24 +41,24 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #181818; -fx-border-radius: 2 0 2 0; -fx-border-color: #C9A84C;" BorderPane.alignment="CENTER">
          <children>
-            <PasswordField fx:id="passField_login" layoutX="35.0" layoutY="128.0" prefHeight="28.0" prefWidth="189.0" style="-fx-background-color: #30302E; -fx-background-radius: 15; -fx-border-radius: 15;" stylesheets="@css/Login.css" />
-            <TextField fx:id="TxtField_login" layoutX="37.0" layoutY="54.0" prefHeight="25.0" prefWidth="185.0" style="-fx-background-color: #30302E; -fx-background-radius: 15; -fx-border-radius: 15;" stylesheets="@css/Login.css" />
+            <PasswordField fx:id="passField_login" layoutX="35.0" layoutY="128.0" prefHeight="28.0" prefWidth="189.0" style="-fx-background-color: #30302E; -fx-background-radius: 15; -fx-border-radius: 15;" stylesheets="@../css/Login.css" />
+            <TextField fx:id="TxtField_login" layoutX="37.0" layoutY="54.0" prefHeight="25.0" prefWidth="185.0" style="-fx-background-color: #30302E; -fx-background-radius: 15; -fx-border-radius: 15;" stylesheets="@../css/Login.css" />
             <Label layoutX="47.0" layoutY="34.0" prefHeight="17.0" prefWidth="103.0" text="username" textFill="#c99931">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label layoutX="47.0" layoutY="108.0" prefHeight="17.0" prefWidth="103.0" stylesheets="@css/Login.css" text="password" textAlignment="JUSTIFY" textFill="#c99931">
+            <Label layoutX="47.0" layoutY="108.0" prefHeight="17.0" prefWidth="103.0" stylesheets="@../css/Login.css" text="password" textAlignment="JUSTIFY" textFill="#c99931">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Button fx:id="login_btn" layoutX="37.0" layoutY="192.0" mnemonicParsing="false" onAction="#Login_btn" prefHeight="25.0" prefWidth="69.0" stylesheets="@css/Login.css" text="LOGIN">
+            <Button fx:id="login_btn" layoutX="37.0" layoutY="192.0" mnemonicParsing="false" onAction="#Login_btn" prefHeight="25.0" prefWidth="69.0" stylesheets="@../css/Login.css" text="LOGIN">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="empty_btn" layoutX="121.0" layoutY="192.0" mnemonicParsing="false" onAction="#Empty_btn" prefHeight="25.0" prefWidth="82.0" styleClass="c" stylesheets="@css/Login.css" text="EMPTY">
+            <Button fx:id="empty_btn" layoutX="121.0" layoutY="192.0" mnemonicParsing="false" onAction="#Empty_btn" prefHeight="25.0" prefWidth="82.0" styleClass="c" stylesheets="@../css/Login.css" text="EMPTY">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

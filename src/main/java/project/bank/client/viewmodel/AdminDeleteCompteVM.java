@@ -64,7 +64,7 @@ public class AdminDeleteCompteVM implements Initializable {
 
             if (success) {
                 statusLabel.setTextFill(Color.web("#5DCF5D"));
-                statusLabel.setText("✓  acc " + accountNumber + " deleted successfully");
+                statusLabel.setText("  acc " + accountNumber + " deleted successfully");
                 accountNumberField.clear();
             } else {
                 showerror("error to delete account.  acc may not exist.");

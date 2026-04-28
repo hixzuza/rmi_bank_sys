@@ -51,7 +51,7 @@ public class AdminCreateCompteVM implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Failed to connect to server: " + e.getMessage());
+            showError("failed to connect to server: " + e.getMessage());
         }
     }
 
@@ -63,17 +63,17 @@ public class AdminCreateCompteVM implements Initializable {
 
         // Validation
         if (firstName.isEmpty()) {
-            showError("Please enter client first name");
+            showError("please enter client first name");
             return;
         }
 
         if (lastName.isEmpty()) {
-            showError("Please enter client last name");
+            showError("please enter client last name");
             return;
         }
 
         if (balanceText.isEmpty()) {
-            showError("Please enter a balance");
+            showError("please enter a balance");
             return;
         }
 
@@ -81,11 +81,11 @@ public class AdminCreateCompteVM implements Initializable {
         try {
             balance = Double.parseDouble(balanceText);
             if (balance < 0) {
-                showError("Balance cannot be negative");
+                showError("balance cannot be negative");
                 return;
             }
         } catch (NumberFormatException e) {
-            showError("Please enter a valid number for balance");
+            showError("please enter a valid number for balance");
             return;
         }
 
@@ -98,15 +98,15 @@ public class AdminCreateCompteVM implements Initializable {
 
             if (success) {
                 statusLabel.setTextFill(Color.web("#5DCF5D"));
-                statusLabel.setText("✓ Account created successfully for: " + firstName + " " + lastName);
+                statusLabel.setText("account created successfully for: " + firstName + " " + lastName);
                 firstNameField.clear();
                 lastNameField.clear();
                 balanceField.clear();
             } else {
-                showError("Failed to create account. Client not found with name: " + firstName + " " + lastName);
+                showError("failed to create account. Client not found with name: " + firstName + " " + lastName);
             }
         } catch (RemoteException e) {
-            showError("Server error: " + e.getMessage());
+            showError("server error: " + e.getMessage());
             e.printStackTrace();
         }
     }

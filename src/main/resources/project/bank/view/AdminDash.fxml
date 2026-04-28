@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="Paneroot" prefHeight="686.0" prefWidth="1300.0" stylesheets="@css/AdminDash.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.bank.client.viewmodel.AdminDashVM">
+<BorderPane fx:id="Paneroot" prefHeight="686.0" prefWidth="1300.0" stylesheets="@../css/AdminDash.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.bank.client.viewmodel.AdminDashVM">
     <bottom>
         <HBox prefHeight="40.0" prefWidth="600.0" style="-fx-border-color: #c99931;" styleClass="bottom-status" BorderPane.alignment="CENTER">
             <Label alignment="CENTER" prefHeight="40.0" prefWidth="186.0" styleClass="online-status" text="● ONLINE">
@@ -84,7 +84,7 @@
                <graphic>
                   <ImageView fitHeight="27.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@img/icons8-cycle-30.png" />
+                        <Image url="@../img/icons8-cycle-30.png" />
                      </image>
                   </ImageView>
                </graphic>

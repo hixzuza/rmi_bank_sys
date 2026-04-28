@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/project/bank/Login.fxml")
+                getClass().getResource("/project/bank/view/Login.fxml")
         );
 
         Scene scene = new Scene(fxmlLoader.load());
